@@ -20,28 +20,54 @@ public class EbayLoginTest         {
     public void testLoginEbay(){
 
 
-        wd.get("https://www.ebay.com/");
-
-        wd.findElement(By.linkText("Sign in")).click();
-        wd.findElement(By.name("userid")).click();
-        wd.findElement(By.name("userid")).clear();
-        wd.findElement(By.name("userid")).sendKeys("username");
-
-        wd.findElement(By.id("pass")).click();
-        wd.findElement(By.id("pass")).clear();
-        wd.findElement(By.id("pass")).sendKeys("password");
-
-        wd.findElement(By.id("sgnBt")).click();
-
-
-
-
-
-
+        openSite("https://www.ebay.com/");
+        unitLogin();
+        fillLoginForm("pass", "userid");
+        confirmLogin();
     }
+
     @AfterMethod
     public void tearDown(){
-        //wd.quit();
+        stop();
     }
+
+
+
+    //---------------------------------------------------------------
+
+    public void confirmLogin() {
+        click(By.id("sgnBt"));
+    }
+
+    public void click(By locator) {
+        wd.findElement(locator).click();
+    }
+
+    public void fillLoginForm(String pwd, String username) {
+         type(By.name("userid"),username);
+         type(By.id("pass"),pwd);
+
+    }
+
+    public void type(By locator, String text) {
+        click(locator);
+        wd.findElement(locator).clear();
+        wd.findElement(locator).sendKeys(text);
+    }
+
+
+    public void unitLogin() {
+        click(By.linkText("Sign in"));
+    }
+
+    public void openSite(String url) {
+        wd.get(url);
+    }
+
+    public void stop() {
+        wd.quit();
+    }
+
+
 
 }
